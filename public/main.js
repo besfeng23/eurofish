@@ -7,6 +7,27 @@ const copyButtons = document.querySelectorAll('[data-copy]');
 const docButtons = document.querySelectorAll('[data-doc-request]');
 const STORAGE_KEY = 'eurofish_inquiries_v2';
 
+function applyBuyerFacingPolish() {
+  document.querySelectorAll('.photo-slot span').forEach((node) => {
+    const text = node.textContent.toLowerCase();
+    if (text.includes('live-cargo') || text.includes('cargo')) node.textContent = 'Live cargo coordination available';
+    if (text.includes('principal') || text.includes('team')) node.textContent = 'Principal-led buyer communication';
+    if (text.includes('document')) node.textContent = 'Documents available upon request';
+  });
+
+  document.querySelectorAll('a[href="/admin/"], a[href="/admin.html"]').forEach((link) => {
+    const text = link.textContent.toLowerCase();
+    if (text.includes('dashboard') || text.includes('admin')) link.remove();
+  });
+
+  document.querySelectorAll('.document-card p').forEach((node) => {
+    node.textContent = node.textContent
+      .replace('Add current validity date, document number, and redacted preview.', 'Documentation may be shared with qualified buyers upon request, subject to verification and appropriate redaction.')
+      .replace('Add permitted business registration details and principal confirmation.', 'Business profile information may be shared with qualified buyers upon request.')
+      .replace('Show how serious buyers receive formal quote, confirmation, and payment terms.', 'Formal quote, confirmation, and payment terms are handled per transaction.');
+  });
+}
+
 function closeNav() {
   document.body.classList.remove('nav-open');
   nav?.classList.remove('is-open');
@@ -70,7 +91,7 @@ async function submitToBackend(payload) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   });
-  if (!response.ok) throw new Error('Backend unavailable');
+  if (!response.ok) throw new Error('Inquiry service unavailable');
   return response.json();
 }
 
@@ -95,14 +116,14 @@ form?.addEventListener('submit', async (event) => {
   }
 
   saveInquiry(payload);
-  if (statusNode) statusNode.textContent = 'Saving inquiry and opening direct email fallback...';
+  if (statusNode) statusNode.textContent = 'Preparing your inquiry...';
 
   try {
     await submitToBackend(payload);
     if (statusNode) statusNode.textContent = 'Inquiry received. Euro-Fish will contact you directly.';
     form.reset();
   } catch {
-    if (statusNode) statusNode.textContent = 'Backend is not live yet. Opening your email app with the full inquiry.';
+    if (statusNode) statusNode.textContent = 'Opening your email app with the full inquiry.';
     window.location.href = buildMailto(payload);
   }
 });
@@ -113,7 +134,7 @@ docButtons.forEach((button) => {
     const interest = form?.querySelector('[name="interest"]');
     const message = form?.querySelector('[name="message"]');
     if (interest) interest.value = 'Compliance documents';
-    if (message) message.value = `Please send the buyer proof document for: ${request}.`;
+    if (message) message.value = `Please send buyer documentation for: ${request}.`;
     document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
@@ -148,3 +169,5 @@ if ('IntersectionObserver' in window && sections.length && links.length) {
 window.addEventListener('scroll', () => {
   header?.classList.toggle('is-scrolled', window.scrollY > 12);
 }, { passive: true });
+
+applyBuyerFacingPolish();
