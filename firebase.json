@@ -26,6 +26,18 @@
         ]
       }
     ],
+    "rewrites": [
+      { "source": "/company-profile", "destination": "/profile.html" },
+      { "source": "/company-profile/**", "destination": "/profile.html" },
+      { "source": "/procurement-documents", "destination": "/documents.html" },
+      { "source": "/procurement-documents/**", "destination": "/documents.html" },
+      { "source": "/milkfish-fry-importer-philippines", "destination": "/milkfish.html" },
+      { "source": "/milkfish-fry-importer-philippines/**", "destination": "/milkfish.html" },
+      { "source": "/imported-flowers-philippines", "destination": "/flowers.html" },
+      { "source": "/imported-flowers-philippines/**", "destination": "/flowers.html" },
+      { "source": "/admin", "destination": "/admin.html" },
+      { "source": "/admin/**", "destination": "/admin.html" }
+    ],
     "cleanUrls": true,
     "trailingSlash": false
   }
