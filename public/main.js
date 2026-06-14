@@ -7,6 +7,31 @@ const copyButtons = document.querySelectorAll('[data-copy]');
 const docButtons = document.querySelectorAll('[data-doc-request]');
 const STORAGE_KEY = 'eurofish_inquiries_v2';
 
+const imageSet = {
+  liveCargo: 'https://ispweb.pcaarrd.dost.gov.ph/wp-content/uploads/2021/11/Transport-of-Milkfish-Fry-1024x576.jpg',
+  fryBasins: 'https://www.seafdec.org.ph/wp-content/uploads/2021/06/milkfish-fry-in-basins-1-scaled.jpg',
+  anthurium: 'https://upload.wikimedia.org/wikipedia/commons/5/50/Aanthurium.JPG',
+  orchid: 'https://upload.wikimedia.org/wikipedia/commons/a/a7/Orchid_Flower_%28181043279%29.jpeg'
+};
+
+function setPhotoBackground(selector, url, label) {
+  document.querySelectorAll(selector).forEach((node) => {
+    node.style.backgroundImage = `linear-gradient(135deg, rgba(9, 47, 37, 0.46), rgba(9, 47, 37, 0.16)), url("${url}")`;
+    node.style.backgroundSize = 'cover';
+    node.style.backgroundPosition = 'center';
+    const badge = node.querySelector('span');
+    if (badge && label) badge.textContent = label;
+  });
+}
+
+function applyImageLayer() {
+  setPhotoBackground('.live-cargo', imageSet.liveCargo, 'Milkfish fry transport coordination');
+  setPhotoBackground('.principal-shot', imageSet.fryBasins, 'Aquaculture sourcing desk');
+  setPhotoBackground('.documents-shot', imageSet.fryBasins, 'Shipment readiness review');
+  setPhotoBackground('.catalog-art.exotic', imageSet.anthurium, '');
+  setPhotoBackground('.catalog-art.orchid', imageSet.orchid, '');
+}
+
 function applyBrandName() {
   document.title = document.title.replaceAll('1064 Euro-Fish Trading', '1064 Euro-Fish Trades').replaceAll('Euro-Fish Trading', 'Euro-Fish Trades');
   document.querySelectorAll('meta[content], [aria-label], [title]').forEach((node) => {
@@ -25,10 +50,10 @@ function applyBrandName() {
 
 function applyBuyerFacingPolish() {
   applyBrandName();
+  applyImageLayer();
   document.querySelectorAll('.photo-slot span').forEach((node) => {
     const text = node.textContent.toLowerCase();
-    if (text.includes('live-cargo') || text.includes('cargo')) node.textContent = 'Live cargo coordination available';
-    if (text.includes('principal') || text.includes('team')) node.textContent = 'Principal-led buyer communication';
+    if (text.includes('replace')) node.textContent = 'Operational coordination available';
     if (text.includes('document')) node.textContent = 'Documents available upon request';
   });
 
