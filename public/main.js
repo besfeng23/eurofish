@@ -7,7 +7,24 @@ const copyButtons = document.querySelectorAll('[data-copy]');
 const docButtons = document.querySelectorAll('[data-doc-request]');
 const STORAGE_KEY = 'eurofish_inquiries_v2';
 
+function applyBrandName() {
+  document.title = document.title.replaceAll('1064 Euro-Fish Trading', '1064 Euro-Fish Trades').replaceAll('Euro-Fish Trading', 'Euro-Fish Trades');
+  document.querySelectorAll('meta[content], [aria-label], [title]').forEach((node) => {
+    ['content', 'aria-label', 'title'].forEach((attribute) => {
+      const value = node.getAttribute(attribute);
+      if (value) node.setAttribute(attribute, value.replaceAll('1064 Euro-Fish Trading', '1064 Euro-Fish Trades').replaceAll('Euro-Fish Trading', 'Euro-Fish Trades'));
+    });
+  });
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const textNodes = [];
+  while (walker.nextNode()) textNodes.push(walker.currentNode);
+  textNodes.forEach((node) => {
+    node.nodeValue = node.nodeValue.replaceAll('1064 Euro-Fish Trading', '1064 Euro-Fish Trades').replaceAll('Euro-Fish Trading', 'Euro-Fish Trades');
+  });
+}
+
 function applyBuyerFacingPolish() {
+  applyBrandName();
   document.querySelectorAll('.photo-slot span').forEach((node) => {
     const text = node.textContent.toLowerCase();
     if (text.includes('live-cargo') || text.includes('cargo')) node.textContent = 'Live cargo coordination available';
