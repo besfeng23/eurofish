@@ -1,9 +1,21 @@
 const KEY = 'eurofish_inquiries_v2';
+const ACCESS_KEY = 'eurofish_admin_preview_ok';
 const rows = document.querySelector('[data-rows]');
 const total = document.querySelector('[data-total]');
 const fresh = document.querySelector('[data-new]');
 const exportButton = document.querySelector('[data-export]');
 const clearButton = document.querySelector('[data-clear]');
+
+function requirePreviewAccess() {
+  if (sessionStorage.getItem(ACCESS_KEY) === 'true') return true;
+  const answer = window.prompt('Admin preview. Enter access code.');
+  if (answer === 'EUROFISH') {
+    sessionStorage.setItem(ACCESS_KEY, 'true');
+    return true;
+  }
+  document.body.innerHTML = '<main class="page-hero"><div class="container"><p class="eyebrow">Restricted</p><h1>Admin preview is restricted.</h1><p class="page-lead">Return to the public Euro-Fish website.</p><a class="btn btn-primary" href="/">Return home</a></div></main>';
+  return false;
+}
 
 function readInquiries() {
   try { return JSON.parse(localStorage.getItem(KEY) || '[]'); }
@@ -52,4 +64,4 @@ clearButton?.addEventListener('click', () => {
   render();
 });
 
-render();
+if (requirePreviewAccess()) render();
