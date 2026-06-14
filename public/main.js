@@ -48,9 +48,56 @@ function applyBrandName() {
   });
 }
 
+function ensureConversionFields() {
+  if (!form) return;
+  const targetDate = form.querySelector('[name="targetDate"]')?.closest('label');
+  if (!form.querySelector('[name="quantity"]')) {
+    const quantity = document.createElement('label');
+    quantity.innerHTML = 'Estimated quantity<input name="quantity" type="text" placeholder="Example: 100k fry, 20 boxes, 500 stems">';
+    form.insertBefore(quantity, targetDate || form.querySelector('button'));
+  }
+  if (!form.querySelector('[name="urgency"]')) {
+    const urgency = document.createElement('label');
+    urgency.innerHTML = 'Urgency<select name="urgency"><option value="">Select urgency</option><option>Immediate</option><option>This week</option><option>This month</option><option>Planning only</option></select>';
+    form.insertBefore(urgency, targetDate || form.querySelector('button'));
+  }
+}
+
+function setInquiry(interest, message) {
+  if (!form) return;
+  const interestField = form.querySelector('[name="interest"]');
+  const messageField = form.querySelector('[name="message"]');
+  if (interestField) interestField.value = interest;
+  if (messageField && !messageField.value) messageField.value = message;
+  document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function addBuyerPathCtas() {
+  const heroActions = document.querySelector('.hero-copy .hero-actions');
+  if (!heroActions || document.querySelector('[data-buyer-paths]')) return;
+  const wrap = document.createElement('div');
+  wrap.className = 'hero-actions compact';
+  wrap.dataset.buyerPaths = 'true';
+  wrap.innerHTML = '<button class="btn btn-ghost" type="button" data-interest="Milkfish fry wholesale">Request fry availability</button><button class="btn btn-ghost" type="button" data-interest="Imported flowers">Request flower catalog</button><button class="btn btn-ghost" type="button" data-interest="Compliance documents">Request buyer documents</button>';
+  heroActions.after(wrap);
+  wrap.querySelectorAll('[data-interest]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const interest = button.getAttribute('data-interest') || '';
+      const message = interest === 'Milkfish fry wholesale'
+        ? 'Please confirm current milkfish fry availability. I will send volume, target date, and receiving location.'
+        : interest === 'Imported flowers'
+          ? 'Please send the current flower catalog, availability, lead time, and order requirements.'
+          : 'Please send the buyer document checklist and available procurement documents for qualified review.';
+      setInquiry(interest, message);
+    });
+  });
+}
+
 function applyBuyerFacingPolish() {
   applyBrandName();
   applyImageLayer();
+  ensureConversionFields();
+  addBuyerPathCtas();
   document.querySelectorAll('.photo-slot span').forEach((node) => {
     const text = node.textContent.toLowerCase();
     if (text.includes('replace')) node.textContent = 'Operational coordination available';
@@ -179,11 +226,7 @@ form?.addEventListener('submit', async (event) => {
 docButtons.forEach((button) => {
   button.addEventListener('click', () => {
     const request = button.getAttribute('data-doc-request') || 'Compliance documents';
-    const interest = form?.querySelector('[name="interest"]');
-    const message = form?.querySelector('[name="message"]');
-    if (interest) interest.value = 'Compliance documents';
-    if (message) message.value = `Please send buyer documentation for: ${request}.`;
-    document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setInquiry('Compliance documents', `Please send buyer documentation for: ${request}.`);
   });
 });
 
