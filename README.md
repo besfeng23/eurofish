@@ -7,27 +7,19 @@ A clean, fast, mobile-first marketing site for 1064 Euro-Fish Trading: aquacultu
 - `public/index.html` — production-ready static landing page
 - `public/styles.css` — responsive premium visual system
 - `public/main.js` — mobile navigation, inquiry mailto workflow, copy-to-clipboard, reveal animation
-- `public/site.webmanifest` — basic PWA metadata
 - `public/robots.txt` — crawl guidance
 - `firebase.json` — Firebase Hosting configuration
-- `.firebaserc` — default Firebase project alias
 - `AUDIT.md` — live-site audit and improvement plan
 
 ## Local preview
 
 Because this is a static Firebase Hosting site, no build step is required.
 
-```bash
-npm run serve
-```
-
-Or open `public/index.html` directly in a browser.
+Run the Firebase Hosting emulator with `npm run serve`, or open `public/index.html` directly in a browser.
 
 ## Deploy
 
-```bash
-npm run deploy
-```
+Run `npm run deploy` after selecting the correct Firebase project locally, or pass the project id through the Firebase CLI.
 
 ## Notes before going live
 
