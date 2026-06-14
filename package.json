@@ -1,0 +1,23 @@
+{
+  "name": "eurofish-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static marketing website for 1064 Euro-Fish Trading.",
+  "scripts": {
+    "serve": "firebase emulators:start --only hosting",
+    "deploy": "firebase deploy --only hosting"
+  },
+  "keywords": [
+    "eurofish",
+    "aquaculture",
+    "milkfish",
+    "bangus",
+    "flowers",
+    "firebase-hosting"
+  ],
+  "author": "1064 Euro-Fish Trading",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "firebase-tools": "^14.0.0"
+  }
+}
