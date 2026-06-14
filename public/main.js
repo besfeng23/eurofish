@@ -114,10 +114,13 @@ function buildMailto(payload) {
   const subject = encodeURIComponent(`Euro-Fish Inquiry: ${payload.interest}`);
   const body = encodeURIComponent([
     `Full name: ${payload.name}`,
+    `Company / business: ${payload.company || 'Not provided'}`,
     `Email: ${payload.email}`,
     `Phone / Viber: ${payload.phone || 'Not provided'}`,
     `Buyer type: ${payload.buyerType}`,
     `Interested in: ${payload.interest}`,
+    `Estimated quantity: ${payload.quantity || 'Not provided'}`,
+    `Urgency: ${payload.urgency || 'Not provided'}`,
     `Target date: ${payload.targetDate || 'Not provided'}`,
     `Destination: ${payload.destination || 'Not provided'}`,
     '',
@@ -142,10 +145,13 @@ form?.addEventListener('submit', async (event) => {
   const data = new FormData(form);
   const payload = {
     name: String(data.get('name') || '').trim(),
+    company: String(data.get('company') || '').trim(),
     email: String(data.get('email') || '').trim(),
     phone: String(data.get('phone') || '').trim(),
     buyerType: String(data.get('buyerType') || '').trim(),
     interest: String(data.get('interest') || '').trim(),
+    quantity: String(data.get('quantity') || '').trim(),
+    urgency: String(data.get('urgency') || '').trim(),
     targetDate: String(data.get('targetDate') || '').trim(),
     destination: String(data.get('destination') || '').trim(),
     message: String(data.get('message') || '').trim(),
