@@ -93,11 +93,68 @@ function addBuyerPathCtas() {
   });
 }
 
+function addTrustCenter() {
+  if (document.querySelector('[data-trust-center]')) return;
+  const anchor = document.querySelector('#proof-pack') || document.querySelector('#process') || document.querySelector('#contact');
+  if (!anchor) return;
+
+  const section = document.createElement('section');
+  section.className = 'section trust-center reveal';
+  section.dataset.trustCenter = 'true';
+  section.id = 'trust-center';
+  section.innerHTML = `
+    <div class="container">
+      <div class="section-heading">
+        <p class="eyebrow">Trust center</p>
+        <h2>Credibility built on transparency, not hype.</h2>
+        <p>Euro-Fish Trades should be judged by how clearly it handles buyer details, documents, quotation boundaries, receiving requirements, and principal accountability. The site now makes those rules visible before a buyer sends an inquiry.</p>
+      </div>
+      <div class="trust-grid">
+        <article class="trust-card trust-card-strong">
+          <span>01</span>
+          <h3>Documents are available by qualified request</h3>
+          <p>Relevant business, accreditation, quotation, and shipment-related documents are positioned as buyer proof — not public decoration. Sensitive files should be verified, redacted, and shared only with qualified buyers.</p>
+        </article>
+        <article class="trust-card">
+          <span>02</span>
+          <h3>No unsupported dominance claims</h3>
+          <p>The site avoids risky claims like “No. 1,” “largest,” “exclusive,” or “market leader” unless those can be proven with official documents.</p>
+        </article>
+        <article class="trust-card">
+          <span>03</span>
+          <h3>Principal-led communication</h3>
+          <p>Serious buyers are routed toward direct principal oversight for timing, volume, documentation, quotation, and receiving coordination.</p>
+        </article>
+        <article class="trust-card">
+          <span>04</span>
+          <h3>Buyer qualification before quote</h3>
+          <p>The inquiry flow asks for company name, buyer type, product, estimated quantity, target date, destination, urgency, and document needs before serious quotation.</p>
+        </article>
+        <article class="trust-card">
+          <span>05</span>
+          <h3>Receiving-risk controls</h3>
+          <p>Live fry and perishable flowers require receiving-party readiness. The site makes timing, location, and handoff details part of the buying process.</p>
+        </article>
+        <article class="trust-card">
+          <span>06</span>
+          <h3>Clear commercial boundaries</h3>
+          <p>Availability, order size, pricing, and shipment timing are confirmed per transaction. The site does not imply guaranteed stock or fixed terms without confirmation.</p>
+        </article>
+      </div>
+      <div class="trust-note">
+        <strong>Credibility rule:</strong> publish only what can be verified, redact what is sensitive, and move serious buyers into a documented inquiry-to-quote process.
+      </div>
+    </div>
+  `;
+  anchor.before(section);
+}
+
 function applyBuyerFacingPolish() {
   applyBrandName();
   applyImageLayer();
   ensureConversionFields();
   addBuyerPathCtas();
+  addTrustCenter();
   document.querySelectorAll('.photo-slot span').forEach((node) => {
     const text = node.textContent.toLowerCase();
     if (text.includes('replace')) node.textContent = 'Operational coordination available';
