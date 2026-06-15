@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /admin
 
-Sitemap: https://eurofish.web.app/sitemap.xml
+Sitemap: https://eurofishtrades.vercel.app/sitemap.xml
