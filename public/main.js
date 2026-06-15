@@ -58,6 +58,45 @@ function hardenContactLinks() {
   });
 }
 
+function addBuyerCommandCenter() {
+  if (document.querySelector('[data-buyer-command-center]')) return;
+  const anchor = document.querySelector('#buyer-paths') || document.querySelector('#aquaculture') || document.querySelector('#contact');
+  if (!anchor) return;
+  const section = document.createElement('section');
+  section.className = 'section buyer-command-section';
+  section.dataset.buyerCommandCenter = 'true';
+  section.innerHTML = `
+    <div class="container">
+      <div class="command-shell">
+        <div class="command-copy">
+          <p class="eyebrow">Buyer command center</p>
+          <h2>One screen for serious procurement action.</h2>
+          <p>Buyers should not hunt around the page. This command center turns the site into a working intake desk: choose the product path, prepare the details, and contact the principal quickly.</p>
+          <div class="command-actions">
+            <button type="button" data-command="fry">Check fry availability</button>
+            <button type="button" data-command="flowers">Request flower catalog</button>
+            <button type="button" data-command="docs">Ask for documents</button>
+          </div>
+        </div>
+        <div class="command-board" aria-label="Buyer readiness checklist">
+          <div class="command-status"><span>Lead quality</span><strong>Buyer-ready inquiry</strong></div>
+          <ul>
+            <li><b>01</b><span>Product needed</span><em>Fry, flowers, or documents</em></li>
+            <li><b>02</b><span>Quantity range</span><em>Volume, boxes, stems, or fry count</em></li>
+            <li><b>03</b><span>Target date</span><em>Receiving or event schedule</em></li>
+            <li><b>04</b><span>Destination</span><em>Farm, shop, warehouse, or venue</em></li>
+            <li><b>05</b><span>Proof needs</span><em>Documents for qualified review</em></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  `;
+  anchor.before(section);
+  section.querySelector('[data-command="fry"]')?.addEventListener('click', () => prefillInquiry('Milkfish fry wholesale', 'Please confirm current milkfish fry availability. Estimated quantity, target receiving date, destination, receiving contact, and document requirements are below.'));
+  section.querySelector('[data-command="flowers"]')?.addEventListener('click', () => prefillInquiry('Imported flowers', 'Please send current imported flower catalog, availability, lead time, substitute options, and order requirements. Event date, quantity, receiving location, and color palette are below.'));
+  section.querySelector('[data-command="docs"]')?.addEventListener('click', () => prefillInquiry('Buyer documents', 'Please send the qualified buyer document checklist and available redacted proof previews for procurement review.'));
+}
+
 function addRedactedDocumentPreviewSystem() {
   if (document.querySelector('[data-redacted-doc-system]')) return;
   const anchor = document.querySelector('#proof-pack') || document.querySelector('#trust-center') || document.querySelector('#contact');
@@ -73,42 +112,12 @@ function addRedactedDocumentPreviewSystem() {
         <p>Buyers need to feel that documents exist, but business IDs, signatures, private addresses, supplier details, and document numbers should not be exposed publicly. These preview cards create trust while keeping verification controlled.</p>
       </div>
       <div class="redacted-doc-grid">
-        <article class="redacted-doc-card verified">
-          <div class="doc-topline"><span>Business profile</span><strong>Preview only</strong></div>
-          <div class="redacted-paper">
-            <i class="line wide"></i><i class="line mid"></i><b class="redact long"></b><i class="line short"></i><b class="redact small"></b><em class="stamp">Qualified request</em>
-          </div>
-          <h3>Company information packet</h3>
-          <p>Public preview should show structure only. Full file is shared after buyer qualification.</p>
-        </article>
-        <article class="redacted-doc-card">
-          <div class="doc-topline"><span>Accreditation</span><strong>Redacted</strong></div>
-          <div class="redacted-paper">
-            <i class="line mid"></i><b class="redact long"></b><i class="line wide"></i><b class="redact medium"></b><i class="line short"></i><em class="stamp">Verify details</em>
-          </div>
-          <h3>BFAR / aquaculture-related proof</h3>
-          <p>Use only if applicable and verified. Hide document number, signatures, and private identifiers.</p>
-        </article>
-        <article class="redacted-doc-card">
-          <div class="doc-topline"><span>Plant imports</span><strong>Redacted</strong></div>
-          <div class="redacted-paper">
-            <i class="line wide"></i><i class="line short"></i><b class="redact medium"></b><i class="line mid"></i><b class="redact long"></b><em class="stamp">By request</em>
-          </div>
-          <h3>BPI / plant-related proof</h3>
-          <p>For flower buyers, preview the document category without publicly exposing sensitive fields.</p>
-        </article>
-        <article class="redacted-doc-card quote">
-          <div class="doc-topline"><span>Commercial</span><strong>Sample</strong></div>
-          <div class="redacted-paper quote-paper">
-            <i class="line wide"></i><i class="line mid"></i><i class="line mid"></i><b class="redact long"></b><em class="stamp">Per transaction</em>
-          </div>
-          <h3>Quotation template</h3>
-          <p>Show buyers that formal quotes include product, quantity, destination, validity, and payment terms.</p>
-        </article>
+        <article class="redacted-doc-card verified"><div class="doc-topline"><span>Business profile</span><strong>Preview only</strong></div><div class="redacted-paper"><i class="line wide"></i><i class="line mid"></i><b class="redact long"></b><i class="line short"></i><b class="redact small"></b><em class="stamp">Qualified request</em></div><h3>Company information packet</h3><p>Public preview should show structure only. Full file is shared after buyer qualification.</p></article>
+        <article class="redacted-doc-card"><div class="doc-topline"><span>Accreditation</span><strong>Redacted</strong></div><div class="redacted-paper"><i class="line mid"></i><b class="redact long"></b><i class="line wide"></i><b class="redact medium"></b><i class="line short"></i><em class="stamp">Verify details</em></div><h3>BFAR / aquaculture-related proof</h3><p>Use only if applicable and verified. Hide document number, signatures, and private identifiers.</p></article>
+        <article class="redacted-doc-card"><div class="doc-topline"><span>Plant imports</span><strong>Redacted</strong></div><div class="redacted-paper"><i class="line wide"></i><i class="line short"></i><b class="redact medium"></b><i class="line mid"></i><b class="redact long"></b><em class="stamp">By request</em></div><h3>BPI / plant-related proof</h3><p>For flower buyers, preview the document category without publicly exposing sensitive fields.</p></article>
+        <article class="redacted-doc-card quote"><div class="doc-topline"><span>Commercial</span><strong>Sample</strong></div><div class="redacted-paper quote-paper"><i class="line wide"></i><i class="line mid"></i><i class="line mid"></i><b class="redact long"></b><em class="stamp">Per transaction</em></div><h3>Quotation template</h3><p>Show buyers that formal quotes include product, quantity, destination, validity, and payment terms.</p></article>
       </div>
-      <div class="redaction-rules">
-        <strong>Redaction rule:</strong> show document category and process, never raw IDs, signatures, payment info, private supplier data, or unverified claims.
-      </div>
+      <div class="redaction-rules"><strong>Redaction rule:</strong> show document category and process, never raw IDs, signatures, payment info, private supplier data, or unverified claims.</div>
     </div>
   `;
   anchor.before(section);
@@ -118,32 +127,15 @@ function addDirectHeroCtas() {
   const heroCopy = document.querySelector('.hero-copy');
   const heroActions = heroCopy?.querySelector('.hero-actions');
   if (!heroCopy || !heroActions || document.querySelector('[data-direct-hero-ctas]')) return;
-
-  heroActions.innerHTML = `
-    <button class="btn btn-primary" type="button" data-hero-intent="fry">Request Fry Availability</button>
-    <button class="btn btn-primary btn-flower" type="button" data-hero-intent="flowers">Request Flower Catalog</button>
-    <button class="btn btn-ghost" type="button" data-hero-intent="docs">Request Buyer Documents</button>
-  `;
+  heroActions.innerHTML = `<button class="btn btn-primary" type="button" data-hero-intent="fry">Request Fry Availability</button><button class="btn btn-primary btn-flower" type="button" data-hero-intent="flowers">Request Flower Catalog</button><button class="btn btn-ghost" type="button" data-hero-intent="docs">Request Buyer Documents</button>`;
   heroActions.dataset.directHeroCtas = 'true';
-
   const secondary = document.createElement('div');
   secondary.className = 'hero-secondary-links';
-  secondary.innerHTML = `
-    <a href="/company-profile/">View company profile</a>
-    <a href="/trust-center.html">Trust center</a>
-    <a href="${buildMailto('Quick buyer inquiry')}">Email quick inquiry</a>
-  `;
+  secondary.innerHTML = `<a href="/company-profile/">View company profile</a><a href="/trust-center.html">Trust center</a><a href="${buildMailto('Quick buyer inquiry')}">Email quick inquiry</a>`;
   heroActions.after(secondary);
-
-  heroActions.querySelector('[data-hero-intent="fry"]')?.addEventListener('click', () => {
-    prefillInquiry('Milkfish fry wholesale', 'Please confirm current milkfish fry availability. Estimated quantity, target receiving date, destination, receiving contact, and document requirements are below.');
-  });
-  heroActions.querySelector('[data-hero-intent="flowers"]')?.addEventListener('click', () => {
-    prefillInquiry('Imported flowers', 'Please send current imported flower catalog, availability, lead time, substitute options, and order requirements. Event date, quantity, receiving location, and color palette are below.');
-  });
-  heroActions.querySelector('[data-hero-intent="docs"]')?.addEventListener('click', () => {
-    prefillInquiry('Buyer documents', 'Please send the qualified buyer document checklist and available redacted proof previews for procurement review.');
-  });
+  heroActions.querySelector('[data-hero-intent="fry"]')?.addEventListener('click', () => prefillInquiry('Milkfish fry wholesale', 'Please confirm current milkfish fry availability. Estimated quantity, target receiving date, destination, receiving contact, and document requirements are below.'));
+  heroActions.querySelector('[data-hero-intent="flowers"]')?.addEventListener('click', () => prefillInquiry('Imported flowers', 'Please send current imported flower catalog, availability, lead time, substitute options, and order requirements. Event date, quantity, receiving location, and color palette are below.'));
+  heroActions.querySelector('[data-hero-intent="docs"]')?.addEventListener('click', () => prefillInquiry('Buyer documents', 'Please send the qualified buyer document checklist and available redacted proof previews for procurement review.'));
 }
 
 function addQuickInquirySticky() {
@@ -160,7 +152,7 @@ function addActionableStyles() {
   const style = document.createElement('style');
   style.id = 'actionable-cta-style';
   style.textContent = `
-    .redacted-doc-section{background:linear-gradient(180deg,rgba(9,47,37,.055),rgba(255,253,246,.42),transparent)}.redacted-doc-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.redacted-doc-card{border:1px solid var(--line);border-radius:30px;background:rgba(255,253,246,.94);box-shadow:var(--soft-shadow);padding:18px;overflow:hidden}.doc-topline{display:flex;justify-content:space-between;gap:12px;margin-bottom:14px}.doc-topline span,.doc-topline strong{font-size:.72rem;font-weight:1000;letter-spacing:.12em;text-transform:uppercase}.doc-topline span{color:var(--muted)}.doc-topline strong{border-radius:999px;background:rgba(216,240,231,.72);color:var(--green);padding:5px 8px}.redacted-paper{height:235px;border:1px solid rgba(16,32,25,.12);border-radius:24px;background:linear-gradient(180deg,#fffdf6,#f6efe0);padding:22px;position:relative;box-shadow:inset 0 0 0 1px rgba(255,255,255,.72)}.redacted-paper:before{content:'';position:absolute;right:20px;top:20px;width:58px;height:58px;border-radius:50%;border:2px solid rgba(185,139,55,.32)}.line{display:block;height:10px;border-radius:999px;background:rgba(16,32,25,.14);margin-bottom:12px}.line.wide{width:82%}.line.mid{width:62%}.line.short{width:42%}.redact{display:block;height:22px;border-radius:7px;background:repeating-linear-gradient(45deg,rgba(16,32,25,.86) 0 8px,rgba(16,32,25,.72) 8px 16px);margin:18px 0}.redact.long{width:84%}.redact.medium{width:62%}.redact.small{width:38%}.stamp{position:absolute;left:22px;bottom:22px;border:1px solid rgba(19,86,64,.25);border-radius:999px;background:rgba(216,240,231,.74);color:var(--green);padding:8px 10px;font-style:normal;font-size:.72rem;font-weight:1000;text-transform:uppercase;letter-spacing:.08em}.quote-paper{background:linear-gradient(180deg,#fffdf6,#edf7f2)}.redacted-doc-card h3{margin-top:16px}.redacted-doc-card p{color:var(--muted);margin-bottom:0}.redaction-rules{margin-top:18px;border:1px solid rgba(19,86,64,.18);border-radius:22px;background:rgba(216,240,231,.48);padding:18px;color:var(--green);font-weight:900}.hero-actions[data-direct-hero-ctas="true"]{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:stretch}.hero-actions[data-direct-hero-ctas="true"] .btn{width:100%;min-height:58px;text-align:center}.btn-flower{background:linear-gradient(135deg,#7f4f3f,#d98e7d)!important}.hero-secondary-links{display:flex;flex-wrap:wrap;gap:14px;margin-top:-18px;margin-bottom:28px;color:var(--muted);font-size:.94rem;font-weight:900}.hero-secondary-links a{border-bottom:2px solid rgba(19,86,64,.18)}.quick-inquiry-bar{position:fixed;left:50%;bottom:16px;z-index:180;transform:translateX(-50%);display:flex;gap:8px;align-items:center;border:1px solid rgba(255,255,255,.45);border-radius:999px;background:rgba(16,32,25,.94);box-shadow:0 22px 56px rgba(16,32,25,.28);backdrop-filter:blur(16px);padding:9px}.quick-inquiry-bar a{border-radius:999px;background:#fff;color:#092f25;padding:12px 14px;font-weight:1000;white-space:nowrap}.quick-inquiry-bar .quick-primary{background:linear-gradient(135deg,#b98b37,#e1c884);color:#102019}@media(max-width:1080px){.redacted-doc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-actions[data-direct-hero-ctas="true"]{grid-template-columns:1fr}}@media(max-width:760px){.redacted-doc-grid{grid-template-columns:1fr}.quick-inquiry-bar{left:12px;right:12px;bottom:12px;transform:none;justify-content:space-between;border-radius:24px}.quick-inquiry-bar a{flex:1;text-align:center;padding:12px 8px;font-size:.86rem}.contact-section{padding-bottom:150px}}
+    .buyer-command-section{background:linear-gradient(135deg,rgba(9,47,37,.96),rgba(19,86,64,.92));color:#fff;position:relative;overflow:hidden}.buyer-command-section:before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 18% 18%,rgba(225,200,132,.2),transparent 28rem),linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px);background-size:auto,42px 42px,42px 42px;pointer-events:none}.command-shell{position:relative;display:grid;grid-template-columns:1fr 1.05fr;gap:28px;align-items:center}.command-copy h2{color:#fff}.command-copy p{color:rgba(255,255,255,.76);font-size:1.05rem}.command-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:22px}.command-actions button{border:1px solid rgba(255,255,255,.18);border-radius:18px;background:rgba(255,255,255,.1);color:#fff;padding:15px 13px;font-weight:1000;text-align:left;box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}.command-actions button:first-child{background:linear-gradient(135deg,#b98b37,#e1c884);color:#102019}.command-board{border:1px solid rgba(255,255,255,.16);border-radius:32px;background:rgba(255,255,255,.1);backdrop-filter:blur(18px);padding:18px;box-shadow:0 30px 80px rgba(0,0,0,.18)}.command-status{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(255,255,255,.14);padding:4px 2px 16px;margin-bottom:12px}.command-status span{color:rgba(255,255,255,.6);font-weight:1000;text-transform:uppercase;letter-spacing:.1em;font-size:.72rem}.command-status strong{color:#e1c884}.command-board ul{display:grid;gap:9px;margin:0;padding:0}.command-board li{display:grid;grid-template-columns:42px 1fr;gap:10px;list-style:none;border:1px solid rgba(255,255,255,.13);border-radius:18px;background:rgba(255,255,255,.08);padding:12px}.command-board b{grid-row:span 2;color:#e1c884}.command-board span{font-weight:1000}.command-board em{font-style:normal;color:rgba(255,255,255,.62);font-size:.9rem}.redacted-doc-section{background:linear-gradient(180deg,rgba(9,47,37,.055),rgba(255,253,246,.42),transparent)}.redacted-doc-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.redacted-doc-card{border:1px solid var(--line);border-radius:30px;background:rgba(255,253,246,.94);box-shadow:var(--soft-shadow);padding:18px;overflow:hidden}.doc-topline{display:flex;justify-content:space-between;gap:12px;margin-bottom:14px}.doc-topline span,.doc-topline strong{font-size:.72rem;font-weight:1000;letter-spacing:.12em;text-transform:uppercase}.doc-topline span{color:var(--muted)}.doc-topline strong{border-radius:999px;background:rgba(216,240,231,.72);color:var(--green);padding:5px 8px}.redacted-paper{height:235px;border:1px solid rgba(16,32,25,.12);border-radius:24px;background:linear-gradient(180deg,#fffdf6,#f6efe0);padding:22px;position:relative;box-shadow:inset 0 0 0 1px rgba(255,255,255,.72)}.redacted-paper:before{content:'';position:absolute;right:20px;top:20px;width:58px;height:58px;border-radius:50%;border:2px solid rgba(185,139,55,.32)}.line{display:block;height:10px;border-radius:999px;background:rgba(16,32,25,.14);margin-bottom:12px}.line.wide{width:82%}.line.mid{width:62%}.line.short{width:42%}.redact{display:block;height:22px;border-radius:7px;background:repeating-linear-gradient(45deg,rgba(16,32,25,.86) 0 8px,rgba(16,32,25,.72) 8px 16px);margin:18px 0}.redact.long{width:84%}.redact.medium{width:62%}.redact.small{width:38%}.stamp{position:absolute;left:22px;bottom:22px;border:1px solid rgba(19,86,64,.25);border-radius:999px;background:rgba(216,240,231,.74);color:var(--green);padding:8px 10px;font-style:normal;font-size:.72rem;font-weight:1000;text-transform:uppercase;letter-spacing:.08em}.quote-paper{background:linear-gradient(180deg,#fffdf6,#edf7f2)}.redacted-doc-card h3{margin-top:16px}.redacted-doc-card p{color:var(--muted);margin-bottom:0}.redaction-rules{margin-top:18px;border:1px solid rgba(19,86,64,.18);border-radius:22px;background:rgba(216,240,231,.48);padding:18px;color:var(--green);font-weight:900}.hero-actions[data-direct-hero-ctas="true"]{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:stretch}.hero-actions[data-direct-hero-ctas="true"] .btn{width:100%;min-height:58px;text-align:center}.btn-flower{background:linear-gradient(135deg,#7f4f3f,#d98e7d)!important}.hero-secondary-links{display:flex;flex-wrap:wrap;gap:14px;margin-top:-18px;margin-bottom:28px;color:var(--muted);font-size:.94rem;font-weight:900}.hero-secondary-links a{border-bottom:2px solid rgba(19,86,64,.18)}.quick-inquiry-bar{position:fixed;left:50%;bottom:16px;z-index:180;transform:translateX(-50%);display:flex;gap:8px;align-items:center;border:1px solid rgba(255,255,255,.45);border-radius:999px;background:rgba(16,32,25,.94);box-shadow:0 22px 56px rgba(16,32,25,.28);backdrop-filter:blur(16px);padding:9px}.quick-inquiry-bar a{border-radius:999px;background:#fff;color:#092f25;padding:12px 14px;font-weight:1000;white-space:nowrap}.quick-inquiry-bar .quick-primary{background:linear-gradient(135deg,#b98b37,#e1c884);color:#102019}@media(max-width:1080px){.command-shell{grid-template-columns:1fr}.command-actions,.redacted-doc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-actions[data-direct-hero-ctas="true"]{grid-template-columns:1fr}}@media(max-width:760px){.command-actions,.redacted-doc-grid{grid-template-columns:1fr}.quick-inquiry-bar{left:12px;right:12px;bottom:12px;transform:none;justify-content:space-between;border-radius:24px}.quick-inquiry-bar a{flex:1;text-align:center;padding:12px 8px;font-size:.86rem}.contact-section{padding-bottom:150px}}
   `;
   document.head.appendChild(style);
 }
@@ -214,5 +206,6 @@ form?.addEventListener('submit', async (event) => {
 addActionableStyles();
 hardenContactLinks();
 addDirectHeroCtas();
+addBuyerCommandCenter();
 addRedactedDocumentPreviewSystem();
 addQuickInquirySticky();
